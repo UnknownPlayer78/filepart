@@ -1,3 +1,3 @@
 # FilePart
 
-## Split files into smaller parts
+## Split files into separate parts
