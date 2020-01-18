@@ -1,5 +1,5 @@
-from utils import parse_size
-from utils import exceptions
+from .utils import parse_size
+from .utils import exceptions
 import os
 from os import _exit
 from os.path import exists, isfile

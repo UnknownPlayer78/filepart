@@ -1,4 +1,3 @@
-
 class exceptions:
     class FilePartBaseException(Exception):
         pass
