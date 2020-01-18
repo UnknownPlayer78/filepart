@@ -1,0 +1,6 @@
+/dist
+/build
+/filepart.egg-info
+pypi.sh
+__pycache__
+test.png
