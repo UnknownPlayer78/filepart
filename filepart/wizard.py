@@ -60,7 +60,7 @@ class Wizard:
                     print("You must give a valid value.\n")
                     continue
                 except Exception as error:
-                    print("Uncaught error: " + error)
+                    print(f"{__name__}: error: " + error)
                     os._exit(0)
 
                 print("File name:  " + self.options["file"])

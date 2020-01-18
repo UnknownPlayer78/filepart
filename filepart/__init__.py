@@ -1,6 +1,8 @@
 import sys, getopt
 from .__main__ import __version__
+from os.path import exists, isfile
 
+from .utils import parse_size
 from .utils import Help
 from .wizard import Wizard
 from .split import Splitter
@@ -21,7 +23,7 @@ def main(argv=None):
 
     if len(opts) > 0:
         mode = ""
-        file = args[0] if len(args) > 0 else ""
+        file = " ".join(args) if len(args) > 0 else ""
         parts = ""
         output = ""
 
@@ -57,9 +59,23 @@ def main(argv=None):
                 print(Help.SHORT)
                 print(f"\n\n{__name__}: error: You must provide the parts.")
                 sys.exit(2)
+
+            if not exists(file) or not isfile(file):
+                print(f"{__name__}: error: " + file + ": No such file.")
+                sys.exit(2)
+            
+            try:
+                parts = parse_size(parts)
+            except Exception as error:
+                print(f"{__name__}: error: " + str(error))
+                sys.exit(2)
         
         if not output:
             output = "./"
+        else:
+            if not exists(output) or isfile(output):
+                print(f"{__name__}: error: " + output + " No such directory.")
+                sys.exit(2)
 
         if mode == "split":
             splitter = Splitter(
@@ -76,7 +92,7 @@ def main(argv=None):
             )
             builder.build()
 
-    else:
+    elif len(args) < 1:
         wizard = Wizard()
         mode = wizard.options["mode"]
         file = wizard.options["file"]
@@ -98,3 +114,6 @@ def main(argv=None):
                 output=output
             )
             builder.build()
+    else:
+        print(Help.SHORT)
+        sys.exit(2)

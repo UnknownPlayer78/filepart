@@ -72,13 +72,13 @@ def parse_size(size):
 
     size_int = "".join([s for s in parsed_size if s.isdigit() or test(s, [".", "-"], False)])
     if size_int == "":
-        raise exceptions.ValueError("Please give a value.")
+        raise exceptions.ValueError("You must give a value.")
         
     size_int = float(size_int)
     size_unit = "".join([s for s in parsed_size if not s.isdigit()])
 
     if size_int < 1:
-        raise exceptions.SizeError("Please give a bigger value.")
+        raise exceptions.SizeError("You must give a bigger value.")
 
     if test(size_unit, ["part", "pt"]) or size_unit == "":
         size_in_bytes = 0
@@ -96,13 +96,13 @@ def parse_size(size):
         size_in_bytes = int(size_int * 1024**0)
         size_unit = "byte"
     else:
-        raise exceptions.UnitError("Please give a valid unit.")
+        raise exceptions.UnitError("You must give a valid unit.")
 
     if size_unit == "part" and not size_int % 1 == 0:
         raise exceptions.InvalidValue("Invalid value " + str(size_int))
 
     if size_int < 2 and size_unit == "part":
-        raise exceptions.SizeError("Please give a bigger value.")
+        raise exceptions.SizeError("You must give a bigger value.")
 
     formatted = format_size(size_unit, size_in_bytes, size_int)
 
