@@ -26,44 +26,49 @@ class Wizard:
             
             if file_name:
                 if exists(file_name) and isfile(file_name):
-                    self.options["file"] = file_name
-                    break
+                    self.options["mode"] = "split"
                 else:
-                    print(file_name + " does not exist!\n")
+                    self.options["mode"] = "build"
+                
+                self.options["file"] = file_name                
+                break
             else:
-                print("Please give a file!\n")
+                print("You must give a file.\n")
 
-        while 1:
-            print("File name: " + self.options["file"])
-            try:
-                parts = input("Number of parts or size of parts: ")
-            except KeyboardInterrupt:
+        if self.options["mode"] == "split":
+            while 1:
+                print("File name: " + self.options["file"])
+                try:
+                    parts = input("Number of parts or size of parts: ")
+                except KeyboardInterrupt:
+                    self.cls()
+                    self.ask_loop()
+                    return
                 self.cls()
-                self.ask_loop()
-                return
-            self.cls()
-            try:
-                parts = parse_size(parts)
-            except exceptions.ValueError:
-                print("Please give a value!\n")
-                continue
-            except exceptions.UnitError:
-                print("Please give a valid unit!\n")
-                continue
-            except exceptions.SizeError:
-                print("Please give a bigger value!\n")
-                continue
-            except exceptions.InvalidValue:
-                print("Please give a valid value!\n")
-                continue
-            except Exception as error:
-                print("Uncaught error: " + error)
-                os._exit(0)
+                try:
+                    parts = parse_size(parts)
+                except exceptions.ValueError:
+                    print("You must give a value.\n")
+                    continue
+                except exceptions.UnitError:
+                    print("You must give a valid unit.\n")
+                    continue
+                except exceptions.SizeError:
+                    print("You must give a bigger value.\n")
+                    continue
+                except exceptions.InvalidValue:
+                    print("You must give a valid value.\n")
+                    continue
+                except Exception as error:
+                    print("Uncaught error: " + error)
+                    os._exit(0)
 
-            print("File name:  " + self.options["file"])
-            print("File parts: " + parts["formatted"])
-            self.options["parts"] = parts
-            break
+                print("File name:  " + self.options["file"])
+                print("File parts: " + parts["formatted"])
+                self.options["parts"] = parts
+                break
+        else:
+            print("File name: " + self.options["file"])
 
         while 1:
             try:
@@ -74,14 +79,15 @@ class Wizard:
                 return
             self.cls()
             print("File name:  " + self.options["file"])
-            print("File parts: " + self.options["parts"]["formatted"])
+            if self.options["mode"] == "split":
+                print("File parts: " + self.options["parts"]["formatted"])
             
             if out:
                 if exists(out) and not isfile(out):
                     self.options["output"] = out
                     break
                 else:
-                    print(out + " does not exist!\n")
+                    print(out + " does not exist.\n")
                     continue
             else:
                 self.options["output"] = "./"
@@ -89,5 +95,6 @@ class Wizard:
 
         self.cls()
         print("File name:     " + self.options["file"])
-        print("File parts:    " + self.options["parts"]["formatted"])
+        if self.options["mode"] == "split":
+            print("File parts:    " + self.options["parts"]["formatted"])
         print("Output folder: " + self.options["output"])

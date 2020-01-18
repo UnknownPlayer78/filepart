@@ -22,7 +22,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+__version__ = "0.0.2"
+
+import sys
+
 if __name__ == "__main__":
     import filepart
 
-    filepart.main()
+    filepart.main(sys.argv[1:])

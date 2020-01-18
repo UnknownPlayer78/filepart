@@ -1,3 +1,21 @@
+class Help:
+    SHORT = """\
+usage: filepart [-h] [-v]
+       filepart -s -p PARTS [-o FOLDER] file [FILE...]
+       filepart -b FILE [-o FOLDER] file [FILE...]"""
+
+    LONG = SHORT + """\
+\n\noptions:
+    file                    The name of the file to be split or built
+    -h, --help              Shows this help message
+    -v, --version           Shows the version of filepart
+    -s, --split             Split the file
+    -b, --build             Build the file
+    -p, --parts PARTS       The number of parts to split the file or the size of each part
+                            e.g. --parts 3 or --parts \"3 kb\"
+    -o, --output FOLDER     The output folder to put the parts in or the output folder to 
+                            put the built file in"""
+
 class exceptions:
     class FilePartBaseException(Exception):
         pass
@@ -82,6 +100,9 @@ def parse_size(size):
 
     if size_unit == "part" and not size_int % 1 == 0:
         raise exceptions.InvalidValue("Invalid value " + str(size_int))
+
+    if size_int < 2 and size_unit == "part":
+        raise exceptions.SizeError("Please give a bigger value.")
 
     formatted = format_size(size_unit, size_in_bytes, size_int)
 

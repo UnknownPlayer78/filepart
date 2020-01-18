@@ -1,4 +1,5 @@
 import setuptools
+from filepart import __version__
 
 with open("README.md", "r") as f:
     long_description = f.read()
@@ -11,7 +12,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="filepart",
-    version="0.0.1",
+    version=__version__,
     author="UnknownPlayer78",
     author_email="info@tearlabs.xyz",
     description="Split files into separate parts",
