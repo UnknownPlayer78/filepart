@@ -1,5 +1,6 @@
 from .utils import parse_size
 from .utils import exceptions
+from .utils import parts_exist
 import os
 from os import _exit
 from os.path import exists, isfile
@@ -28,7 +29,11 @@ class Wizard:
                 if exists(file_name) and isfile(file_name):
                     self.options["mode"] = "split"
                 else:
-                    self.options["mode"] = "build"
+                    if parts_exist(file_name):
+                        self.options["mode"] = "build"
+                    else:
+                        print(file_name + " does not exits.\n")
+                        continue
                 
                 self.options["file"] = file_name                
                 break

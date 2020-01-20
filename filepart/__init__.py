@@ -8,6 +8,14 @@ from .wizard import Wizard
 from .split import Splitter
 from .build import Builder
 
+# TODO wizard file not found (check for .part file exists)
+#      -> file.ext -> check for startswith file.ext endswith .part
+# TODO find solution for part systems
+#      -> file.ext.1.part
+#      -> file.ext.2.part
+#      -> file.ext.3.part
+#      -> file.ext -> file.ext.x.part -> file.ext
+
 def main(argv=None):
     if argv == None:
         argv = sys.argv[1:]
@@ -17,9 +25,6 @@ def main(argv=None):
     except getopt.GetoptError:
         print(Help.SHORT)
         sys.exit(2)
-
-    print(opts)
-    print(args)
 
     if len(opts) > 0:
         mode = ""

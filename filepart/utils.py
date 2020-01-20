@@ -32,6 +32,8 @@ class exceptions:
     class InvalidValue(FilePartBaseException):
         pass
 
+from os import listdir
+
 def test(unit, units, s = True):
     for un in units:
         if s:
@@ -59,6 +61,14 @@ def format_size(unit, valueb, value):
             r =  unit
 
     return str(value) + " " + r
+
+def parts_exist(file_name, path="./"):
+    files = listdir(path)
+    for file in files:
+        if file.startswith(file_name) and file.endswith(".part"):
+            return True
+    
+    return False
 
 def parse_size(size):
     size = str(size).lower().strip()
